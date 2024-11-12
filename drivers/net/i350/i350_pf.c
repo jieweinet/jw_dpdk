@@ -21,9 +21,9 @@
 #include <rte_malloc.h>
 #include <rte_random.h>
 
-#include "base/i350_defines.h"
-#include "base/i350_regs.h"
-#include "base/i350_hw.h"
+#include "i350_defines.h"
+#include "i350_regs.h"
+#include "i350_hw.h"
 #include "i350_ethdev.h"
 
 static inline uint16_t

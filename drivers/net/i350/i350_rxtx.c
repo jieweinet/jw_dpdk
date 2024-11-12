@@ -40,7 +40,7 @@
 #include <rte_string_fns.h>
 
 #include "i350_logs.h"
-#include "base/i350_api.h"
+#include "i350_api.h"
 #include "i350_ethdev.h"
 
 #ifdef RTE_LIBRTE_IEEE1588
@@ -2515,34 +2515,23 @@ eth_i350_rx_init(struct rte_eth_dev *dev)
 	if (dev->data->dev_conf.rxmode.offloads & RTE_ETH_RX_OFFLOAD_KEEP_CRC) {
 		rctl &= ~I350_RCTL_SECRC; /* Do not Strip Ethernet CRC. */
 
-		/* clear STRCRC bit in all queues */
-		if (hw->mac.type == i350_i350 ||
-		    hw->mac.type == i350_i210 ||
-		    hw->mac.type == i350_i211 ||
-		    hw->mac.type == i350_i354) {
-			for (i = 0; i < dev->data->nb_rx_queues; i++) {
-				rxq = dev->data->rx_queues[i];
-				uint32_t dvmolr = I350_READ_REG(hw,
-					I350_DVMOLR(rxq->reg_idx));
-				dvmolr &= ~I350_DVMOLR_STRCRC;
-				I350_WRITE_REG(hw, I350_DVMOLR(rxq->reg_idx), dvmolr);
-			}
+		for (i = 0; i < dev->data->nb_rx_queues; i++) {
+			rxq = dev->data->rx_queues[i];
+			uint32_t dvmolr = I350_READ_REG(hw,
+				I350_DVMOLR(rxq->reg_idx));
+			dvmolr &= ~I350_DVMOLR_STRCRC;
+			I350_WRITE_REG(hw, I350_DVMOLR(rxq->reg_idx), dvmolr);
 		}
 	} else {
 		rctl |= I350_RCTL_SECRC; /* Strip Ethernet CRC. */
 
 		/* set STRCRC bit in all queues */
-		if (hw->mac.type == i350_i350 ||
-		    hw->mac.type == i350_i210 ||
-		    hw->mac.type == i350_i211 ||
-		    hw->mac.type == i350_i354) {
-			for (i = 0; i < dev->data->nb_rx_queues; i++) {
-				rxq = dev->data->rx_queues[i];
-				uint32_t dvmolr = I350_READ_REG(hw,
-					I350_DVMOLR(rxq->reg_idx));
-				dvmolr |= I350_DVMOLR_STRCRC;
-				I350_WRITE_REG(hw, I350_DVMOLR(rxq->reg_idx), dvmolr);
-			}
+		for (i = 0; i < dev->data->nb_rx_queues; i++) {
+			rxq = dev->data->rx_queues[i];
+			uint32_t dvmolr = I350_READ_REG(hw,
+				I350_DVMOLR(rxq->reg_idx));
+			dvmolr |= I350_DVMOLR_STRCRC;
+			I350_WRITE_REG(hw, I350_DVMOLR(rxq->reg_idx), dvmolr);
 		}
 	}
 

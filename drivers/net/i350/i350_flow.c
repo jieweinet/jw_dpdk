@@ -26,7 +26,7 @@
 #include <rte_flow_driver.h>
 
 #include "i350_logs.h"
-#include "base/i350_api.h"
+#include "i350_api.h"
 #include "i350_ethdev.h"
 
 #define NEXT_ITEM_OF_PATTERN(item, pattern, index)		\
