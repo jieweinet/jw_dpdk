@@ -314,4 +314,8 @@ struct sfp_i350_flags {
 #define IGB_SFF_ADDRESSING_MODE	0x4
 #define IGB_SFF_8472_UNSUP		0x00
 
+/* EEPROM byte offsets */
+#define IGB_SFF_8472_SWAP		0x5C
+#define IGB_SFF_8472_COMP		0x5E
+
 #endif

@@ -1,14 +1,8 @@
 /* SPDX-License-Identifier: BSD-3-Clause
- * Copyright(c) 2001-2020 Intel Corporation
+ * Copyright(c) Jie Wei
  */
 
 /*
- * 82575EB Gigabit Network Connection
- * 82575EB Gigabit Backplane Connection
- * 82575GB Gigabit Network Connection
- * 82576 Gigabit Network Connection
- * 82576 Quad Port Gigabit Mezzanine Adapter
- * 82580 Gigabit Network Connection
  * I350 Gigabit Network Connection
  */
 
@@ -164,99 +158,15 @@ STATIC s32 i350_init_phy_params_82575(struct i350_hw *hw)
 	/* Set phy->phy_addr and phy->id. */
 	ret_val = i350_get_phy_id_82575(hw);
 
-	/* Verify phy id and set remaining function pointers */
-	switch (phy->id) {
-	case M88E1543_E_PHY_ID:
-	case M88E1512_E_PHY_ID:
-	case I347AT4_E_PHY_ID:
-	case M88E1112_E_PHY_ID:
-	case M88E1340M_E_PHY_ID:
-		phy->type		= i350_phy_m88;
-		phy->ops.check_polarity	= i350_check_polarity_m88;
-		phy->ops.get_info	= i350_get_phy_info_m88;
-		phy->ops.get_cable_length = i350_get_cable_length_m88_gen2;
-		phy->ops.force_speed_duplex = i350_phy_force_speed_duplex_m88;
-		break;
-	case M88E1111_I_PHY_ID:
-		phy->type		= i350_phy_m88;
-		phy->ops.check_polarity	= i350_check_polarity_m88;
-		phy->ops.get_info	= i350_get_phy_info_m88;
-		phy->ops.get_cable_length = i350_get_cable_length_m88;
-		phy->ops.force_speed_duplex = i350_phy_force_speed_duplex_m88;
-		break;
-	case IGP03I350_E_PHY_ID:
-	case IGP04I350_E_PHY_ID:
-		phy->type		= i350_phy_igp_3;
-		phy->ops.check_polarity	= i350_check_polarity_igp;
-		phy->ops.get_info	= i350_get_phy_info_igp;
-		phy->ops.get_cable_length = i350_get_cable_length_igp_2;
-		phy->ops.set_d0_lplu_state = i350_set_d0_lplu_state_82575;
-		phy->ops.set_d3_lplu_state = i350_set_d3_lplu_state_generic;
-		phy->ops.force_speed_duplex = i350_phy_force_speed_duplex_igp;
-		break;
-	case I82580_I_PHY_ID:
-	case I350_I_PHY_ID:
-		phy->type		= i350_phy_82580;
-		phy->ops.check_polarity	= i350_check_polarity_82577;
-		phy->ops.get_info	= i350_get_phy_info_82577;
-		phy->ops.get_cable_length = i350_get_cable_length_82577;
-		phy->ops.set_d0_lplu_state = i350_set_d0_lplu_state_82580;
-		phy->ops.set_d3_lplu_state = i350_set_d3_lplu_state_82580;
-		phy->ops.force_speed_duplex =
-				i350_phy_force_speed_duplex_82577;
-		break;
-	case I210_I_PHY_ID:
-		phy->type		= i350_phy_i210;
-		phy->ops.check_polarity	= i350_check_polarity_m88;
-		phy->ops.get_info	= i350_get_phy_info_m88;
-		phy->ops.get_cable_length = i350_get_cable_length_m88_gen2;
-		phy->ops.set_d0_lplu_state = i350_set_d0_lplu_state_82580;
-		phy->ops.set_d3_lplu_state = i350_set_d3_lplu_state_82580;
-		phy->ops.force_speed_duplex = i350_phy_force_speed_duplex_m88;
-		break;
-	case BCM54616_E_PHY_ID:
-		phy->type		= i350_phy_none;
-		break;
-	default:
-		ret_val = -I350_ERR_PHY;
-		goto out;
-	}
 
-	/* Check if this PHY is configured for media swap. */
-	switch (phy->id) {
-	case M88E1112_E_PHY_ID:
-	{
-		u16 data;
-
-		ret_val = phy->ops.write_reg(hw, I350_M88E1112_PAGE_ADDR, 2);
-		if (ret_val)
-			goto out;
-		ret_val = phy->ops.read_reg(hw, I350_M88E1112_MAC_CTRL_1,
-					    &data);
-		if (ret_val)
-			goto out;
-
-		data = (data & I350_M88E1112_MAC_CTRL_1_MODE_MASK) >>
-			I350_M88E1112_MAC_CTRL_1_MODE_SHIFT;
-		if (data == I350_M88E1112_AUTO_COPPER_SGMII ||
-		    data == I350_M88E1112_AUTO_COPPER_BASEX)
-			hw->mac.ops.check_for_link =
-						i350_check_for_link_media_swap;
-		break;
-	}
-	case M88E1512_E_PHY_ID:
-	{
-		ret_val = i350_initialize_M88E1512_phy(hw);
-		break;
-	}
-	case M88E1543_E_PHY_ID:
-	{
-		ret_val = i350_initialize_M88E1543_phy(hw);
-		break;
-	}
-	default:
-		goto out;
-	}
+	phy->type		= i350_phy_82580;
+	phy->ops.check_polarity	= i350_check_polarity_82577;
+	phy->ops.get_info	= i350_get_phy_info_82577;
+	phy->ops.get_cable_length = i350_get_cable_length_82577;
+	phy->ops.set_d0_lplu_state = i350_set_d0_lplu_state_82580;
+	phy->ops.set_d3_lplu_state = i350_set_d3_lplu_state_82580;
+	phy->ops.force_speed_duplex =
+			i350_phy_force_speed_duplex_82577;
 
 out:
 	return ret_val;
@@ -281,23 +191,13 @@ STATIC s32 i350_init_mac_params_82575(struct i350_hw *hw)
 	/* Set MTA register count */
 	mac->mta_reg_count = 128;
 	/* Set UTA register count */
-	mac->uta_reg_count = (hw->mac.type == i350_82575) ? 0 : 128;
+	mac->uta_reg_count = 128;
 	/* Set RAR entry count */
-	mac->rar_entry_count = I350_RAR_ENTRIES_82575;
-	if (mac->type == i350_82576)
-		mac->rar_entry_count = I350_RAR_ENTRIES_82576;
-	if (mac->type == i350_82580)
-		mac->rar_entry_count = I350_RAR_ENTRIES_82580;
-	if (mac->type == i350_i350 || mac->type == i350_i354)
-		mac->rar_entry_count = I350_RAR_ENTRIES_I350;
+	mac->rar_entry_count = I350_RAR_ENTRIES_I350;
 
 	/* Enable EEE default settings for EEE supported devices */
-	if (mac->type >= i350_i350)
-		dev_spec->eee_disable = false;
+	dev_spec->eee_disable = false;
 
-	/* Allow a single clear of the SW semaphore on I210 and newer */
-	if (mac->type >= i350_i210)
-		dev_spec->clear_semaphore_once = true;
 
 	/* Set if part includes ASF firmware */
 	mac->asf_firmware_present = true;
@@ -312,10 +212,7 @@ STATIC s32 i350_init_mac_params_82575(struct i350_hw *hw)
 	/* bus type/speed/width */
 	mac->ops.get_bus_info = i350_get_bus_info_pcie_generic;
 	/* reset */
-	if (mac->type >= i350_82580)
-		mac->ops.reset_hw = i350_reset_hw_82580;
-	else
-		mac->ops.reset_hw = i350_reset_hw_82575;
+	mac->ops.reset_hw = i350_reset_hw_82580;
 	
 	mac->ops.init_hw = i350_init_hw_82575;
 	/* link setup */
@@ -336,20 +233,13 @@ STATIC s32 i350_init_mac_params_82575(struct i350_hw *hw)
 	mac->ops.config_collision_dist = i350_config_collision_dist_82575;
 	/* multicast address update */
 	mac->ops.update_mc_addr_list = i350_update_mc_addr_list_generic;
-	if (hw->mac.type == i350_i350 || mac->type == i350_i354) {
-		/* writing VFTA */
-		mac->ops.write_vfta = i350_write_vfta_i350;
-		/* clearing VFTA */
-		mac->ops.clear_vfta = i350_clear_vfta_i350;
-	} else {
-		/* writing VFTA */
-		mac->ops.write_vfta = i350_write_vfta_generic;
-		/* clearing VFTA */
-		mac->ops.clear_vfta = i350_clear_vfta_generic;
-	}
-	if (hw->mac.type >= i350_82580)
-		mac->ops.validate_mdi_setting =
-			i350_validate_mdi_setting_crossover_generic;
+	/* writing VFTA */
+	mac->ops.write_vfta = i350_write_vfta_i350;
+	/* clearing VFTA */
+	mac->ops.clear_vfta = i350_clear_vfta_i350;
+	
+	mac->ops.validate_mdi_setting =
+		i350_validate_mdi_setting_crossover_generic;
 	/* ID LED init */
 	mac->ops.id_led_init = i350_id_led_init_generic;
 	/* blink LED */
@@ -674,92 +564,6 @@ out:
 }
 
 /**
- *  i350_set_d0_lplu_state_82575 - Set Low Power Linkup D0 state
- *  @hw: pointer to the HW structure
- *  @active: true to enable LPLU, false to disable
- *
- *  Sets the LPLU D0 state according to the active flag.  When
- *  activating LPLU this function also disables smart speed
- *  and vice versa.  LPLU will not be activated unless the
- *  device autonegotiation advertisement meets standards of
- *  either 10 or 10/100 or 10/100/1000 at all duplexes.
- *  This is a function pointer entry point only called by
- *  PHY setup routines.
- **/
-STATIC s32 i350_set_d0_lplu_state_82575(struct i350_hw *hw, bool active)
-{
-	struct i350_phy_info *phy = &hw->phy;
-	s32 ret_val = I350_SUCCESS;
-	u16 data;
-
-	DEBUGFUNC("i350_set_d0_lplu_state_82575");
-
-	if (!(hw->phy.ops.read_reg))
-		goto out;
-
-	ret_val = phy->ops.read_reg(hw, IGP02I350_PHY_POWER_MGMT, &data);
-	if (ret_val)
-		goto out;
-
-	if (active) {
-		data |= IGP02I350_PM_D0_LPLU;
-		ret_val = phy->ops.write_reg(hw, IGP02I350_PHY_POWER_MGMT,
-					     data);
-		if (ret_val)
-			goto out;
-
-		/* When LPLU is enabled, we should disable SmartSpeed */
-		ret_val = phy->ops.read_reg(hw, IGP01I350_PHY_PORT_CONFIG,
-					    &data);
-		data &= ~IGP01I350_PSCFR_SMART_SPEED;
-		ret_val = phy->ops.write_reg(hw, IGP01I350_PHY_PORT_CONFIG,
-					     data);
-		if (ret_val)
-			goto out;
-	} else {
-		data &= ~IGP02I350_PM_D0_LPLU;
-		ret_val = phy->ops.write_reg(hw, IGP02I350_PHY_POWER_MGMT,
-					     data);
-		/*
-		 * LPLU and SmartSpeed are mutually exclusive.  LPLU is used
-		 * during Dx states where the power conservation is most
-		 * important.  During driver activity we should enable
-		 * SmartSpeed, so performance is maintained.
-		 */
-		if (phy->smart_speed == i350_smart_speed_on) {
-			ret_val = phy->ops.read_reg(hw,
-						    IGP01I350_PHY_PORT_CONFIG,
-						    &data);
-			if (ret_val)
-				goto out;
-
-			data |= IGP01I350_PSCFR_SMART_SPEED;
-			ret_val = phy->ops.write_reg(hw,
-						     IGP01I350_PHY_PORT_CONFIG,
-						     data);
-			if (ret_val)
-				goto out;
-		} else if (phy->smart_speed == i350_smart_speed_off) {
-			ret_val = phy->ops.read_reg(hw,
-						    IGP01I350_PHY_PORT_CONFIG,
-						    &data);
-			if (ret_val)
-				goto out;
-
-			data &= ~IGP01I350_PSCFR_SMART_SPEED;
-			ret_val = phy->ops.write_reg(hw,
-						     IGP01I350_PHY_PORT_CONFIG,
-						     data);
-			if (ret_val)
-				goto out;
-		}
-	}
-
-out:
-	return ret_val;
-}
-
-/**
  *  i350_set_d0_lplu_state_82580 - Set Low Power Linkup D0 state
  *  @hw: pointer to the HW structure
  *  @active: true to enable LPLU, false to disable
@@ -875,7 +679,7 @@ STATIC s32 i350_acquire_nvm_82575(struct i350_hw *hw)
 	 * Check if there is some access
 	 * error this access may hook on
 	 */
-	if (hw->mac.type == i350_i350) {
+	{
 		u32 eecd = I350_READ_REG(hw, I350_EECD);
 		if (eecd & (I350_EECD_BLOCKED | I350_EECD_ABORT |
 		    I350_EECD_TIMEOUT)) {
@@ -884,17 +688,7 @@ STATIC s32 i350_acquire_nvm_82575(struct i350_hw *hw)
 					I350_EECD_ERROR_CLR);
 			DEBUGOUT("Nvm bit banging access error detected and cleared.\n");
 		}
-	}
-
-	if (hw->mac.type == i350_82580) {
-		u32 eecd = I350_READ_REG(hw, I350_EECD);
-		if (eecd & I350_EECD_BLOCKED) {
-			/* Clear access error flag */
-			I350_WRITE_REG(hw, I350_EECD, eecd |
-					I350_EECD_BLOCKED);
-			DEBUGOUT("Nvm bit banging access error detected and cleared.\n");
-		}
-	}
+	 }
 
 	ret_val = i350_acquire_nvm_generic(hw);
 	if (ret_val)
@@ -2747,124 +2541,6 @@ s32 i350_set_eee_i350(struct i350_hw *hw, bool adv1G, bool adv100M)
 out:
 
 	return I350_SUCCESS;
-}
-
-/**
- *  i350_set_eee_i354 - Enable/disable EEE support
- *  @hw: pointer to the HW structure
- *  @adv1G: boolean flag enabling 1G EEE advertisement
- *  @adv100M: boolean flag enabling 100M EEE advertisement
- *
- *  Enable/disable EEE legacy mode based on setting in dev_spec structure.
- *
- **/
-s32 i350_set_eee_i354(struct i350_hw *hw, bool adv1G, bool adv100M)
-{
-	struct i350_phy_info *phy = &hw->phy;
-	s32 ret_val = I350_SUCCESS;
-	u16 phy_data;
-
-	DEBUGFUNC("i350_set_eee_i354");
-
-	if ((hw->phy.media_type != i350_media_type_copper) ||
-	    ((phy->id != M88E1543_E_PHY_ID) &&
-	    (phy->id != M88E1512_E_PHY_ID)))
-		goto out;
-
-	if (!hw->dev_spec._82575.eee_disable) {
-		/* Switch to PHY page 18. */
-		ret_val = phy->ops.write_reg(hw, I350_M88E1543_PAGE_ADDR, 18);
-		if (ret_val)
-			goto out;
-
-		ret_val = phy->ops.read_reg(hw, I350_M88E1543_EEE_CTRL_1,
-					    &phy_data);
-		if (ret_val)
-			goto out;
-
-		phy_data |= I350_M88E1543_EEE_CTRL_1_MS;
-		ret_val = phy->ops.write_reg(hw, I350_M88E1543_EEE_CTRL_1,
-					     phy_data);
-		if (ret_val)
-			goto out;
-
-		/* Return the PHY to page 0. */
-		ret_val = phy->ops.write_reg(hw, I350_M88E1543_PAGE_ADDR, 0);
-		if (ret_val)
-			goto out;
-
-		/* Turn on EEE advertisement. */
-		ret_val = i350_read_xmdio_reg(hw, I350_EEE_ADV_ADDR_I354,
-					       I350_EEE_ADV_DEV_I354,
-					       &phy_data);
-		if (ret_val)
-			goto out;
-
-		if (adv100M)
-			phy_data |= I350_EEE_ADV_100_SUPPORTED;
-		else
-			phy_data &= ~I350_EEE_ADV_100_SUPPORTED;
-
-		if (adv1G)
-			phy_data |= I350_EEE_ADV_1000_SUPPORTED;
-		else
-			phy_data &= ~I350_EEE_ADV_1000_SUPPORTED;
-
-		ret_val = i350_write_xmdio_reg(hw, I350_EEE_ADV_ADDR_I354,
-						I350_EEE_ADV_DEV_I354,
-						phy_data);
-	} else {
-		/* Turn off EEE advertisement. */
-		ret_val = i350_read_xmdio_reg(hw, I350_EEE_ADV_ADDR_I354,
-					       I350_EEE_ADV_DEV_I354,
-					       &phy_data);
-		if (ret_val)
-			goto out;
-
-		phy_data &= ~(I350_EEE_ADV_100_SUPPORTED |
-			      I350_EEE_ADV_1000_SUPPORTED);
-		ret_val = i350_write_xmdio_reg(hw, I350_EEE_ADV_ADDR_I354,
-						I350_EEE_ADV_DEV_I354,
-						phy_data);
-	}
-
-out:
-	return ret_val;
-}
-
-/**
- *  i350_get_eee_status_i354 - Get EEE status
- *  @hw: pointer to the HW structure
- *  @status: EEE status
- *
- *  Get EEE status by guessing based on whether Tx or Rx LPI indications have
- *  been received.
- **/
-s32 i350_get_eee_status_i354(struct i350_hw *hw, bool *status)
-{
-	struct i350_phy_info *phy = &hw->phy;
-	s32 ret_val = I350_SUCCESS;
-	u16 phy_data;
-
-	DEBUGFUNC("i350_get_eee_status_i354");
-
-	/* Check if EEE is supported on this device. */
-	if ((hw->phy.media_type != i350_media_type_copper) ||
-	    ((phy->id != M88E1543_E_PHY_ID) &&
-	    (phy->id != M88E1512_E_PHY_ID)))
-		goto out;
-
-	ret_val = i350_read_xmdio_reg(hw, I350_PCS_STATUS_ADDR_I354,
-				       I350_PCS_STATUS_DEV_I354,
-				       &phy_data);
-	if (ret_val)
-		goto out;
-
-	*status = phy_data & (I350_PCS_STATUS_TX_LPI_RCVD |
-			      I350_PCS_STATUS_RX_LPI_RCVD) ? true : false;
-
-out:
-	return ret_val;
 }
 
 /* Due to a hw errata, if the host tries to  configure the VFTA register

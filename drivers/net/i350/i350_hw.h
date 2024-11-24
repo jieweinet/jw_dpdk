@@ -11,170 +11,11 @@
 
 struct i350_hw;
 
-#define I350_DEV_ID_82542			0x1000
-#define I350_DEV_ID_82543GC_FIBER		0x1001
-#define I350_DEV_ID_82543GC_COPPER		0x1004
-#define I350_DEV_ID_82544EI_COPPER		0x1008
-#define I350_DEV_ID_82544EI_FIBER		0x1009
-#define I350_DEV_ID_82544GC_COPPER		0x100C
-#define I350_DEV_ID_82544GC_LOM		0x100D
-#define I350_DEV_ID_82540EM			0x100E
-#define I350_DEV_ID_82540EM_LOM		0x1015
-#define I350_DEV_ID_82540EP_LOM		0x1016
-#define I350_DEV_ID_82540EP			0x1017
-#define I350_DEV_ID_82540EP_LP			0x101E
-#define I350_DEV_ID_82545EM_COPPER		0x100F
-#define I350_DEV_ID_82545EM_FIBER		0x1011
-#define I350_DEV_ID_82545GM_COPPER		0x1026
-#define I350_DEV_ID_82545GM_FIBER		0x1027
-#define I350_DEV_ID_82545GM_SERDES		0x1028
-#define I350_DEV_ID_82546EB_COPPER		0x1010
-#define I350_DEV_ID_82546EB_FIBER		0x1012
-#define I350_DEV_ID_82546EB_QUAD_COPPER	0x101D
-#define I350_DEV_ID_82546GB_COPPER		0x1079
-#define I350_DEV_ID_82546GB_FIBER		0x107A
-#define I350_DEV_ID_82546GB_SERDES		0x107B
-#define I350_DEV_ID_82546GB_PCIE		0x108A
-#define I350_DEV_ID_82546GB_QUAD_COPPER	0x1099
-#define I350_DEV_ID_82546GB_QUAD_COPPER_KSP3	0x10B5
-#define I350_DEV_ID_82541EI			0x1013
-#define I350_DEV_ID_82541EI_MOBILE		0x1018
-#define I350_DEV_ID_82541ER_LOM		0x1014
-#define I350_DEV_ID_82541ER			0x1078
-#define I350_DEV_ID_82541GI			0x1076
-#define I350_DEV_ID_82541GI_LF			0x107C
-#define I350_DEV_ID_82541GI_MOBILE		0x1077
-#define I350_DEV_ID_82547EI			0x1019
-#define I350_DEV_ID_82547EI_MOBILE		0x101A
-#define I350_DEV_ID_82547GI			0x1075
-#define I350_DEV_ID_82571EB_COPPER		0x105E
-#define I350_DEV_ID_82571EB_FIBER		0x105F
-#define I350_DEV_ID_82571EB_SERDES		0x1060
-#define I350_DEV_ID_82571EB_SERDES_DUAL	0x10D9
-#define I350_DEV_ID_82571EB_SERDES_QUAD	0x10DA
-#define I350_DEV_ID_82571EB_QUAD_COPPER	0x10A4
-#define I350_DEV_ID_82571PT_QUAD_COPPER	0x10D5
-#define I350_DEV_ID_82571EB_QUAD_FIBER		0x10A5
-#define I350_DEV_ID_82571EB_QUAD_COPPER_LP	0x10BC
-#define I350_DEV_ID_82572EI_COPPER		0x107D
-#define I350_DEV_ID_82572EI_FIBER		0x107E
-#define I350_DEV_ID_82572EI_SERDES		0x107F
-#define I350_DEV_ID_82572EI			0x10B9
-#define I350_DEV_ID_82573E			0x108B
-#define I350_DEV_ID_82573E_IAMT		0x108C
-#define I350_DEV_ID_82573L			0x109A
-#define I350_DEV_ID_82574L			0x10D3
-#define I350_DEV_ID_82574LA			0x10F6
-#define I350_DEV_ID_82583V			0x150C
-#define I350_DEV_ID_80003ES2LAN_COPPER_DPT	0x1096
-#define I350_DEV_ID_80003ES2LAN_SERDES_DPT	0x1098
-#define I350_DEV_ID_80003ES2LAN_COPPER_SPT	0x10BA
-#define I350_DEV_ID_80003ES2LAN_SERDES_SPT	0x10BB
-#define I350_DEV_ID_ICH8_82567V_3		0x1501
-#define I350_DEV_ID_ICH8_IGP_M_AMT		0x1049
-#define I350_DEV_ID_ICH8_IGP_AMT		0x104A
-#define I350_DEV_ID_ICH8_IGP_C			0x104B
-#define I350_DEV_ID_ICH8_IFE			0x104C
-#define I350_DEV_ID_ICH8_IFE_GT		0x10C4
-#define I350_DEV_ID_ICH8_IFE_G			0x10C5
-#define I350_DEV_ID_ICH8_IGP_M			0x104D
-#define I350_DEV_ID_ICH9_IGP_M			0x10BF
-#define I350_DEV_ID_ICH9_IGP_M_AMT		0x10F5
-#define I350_DEV_ID_ICH9_IGP_M_V		0x10CB
-#define I350_DEV_ID_ICH9_IGP_AMT		0x10BD
-#define I350_DEV_ID_ICH9_BM			0x10E5
-#define I350_DEV_ID_ICH9_IGP_C			0x294C
-#define I350_DEV_ID_ICH9_IFE			0x10C0
-#define I350_DEV_ID_ICH9_IFE_GT		0x10C3
-#define I350_DEV_ID_ICH9_IFE_G			0x10C2
-#define I350_DEV_ID_ICH10_R_BM_LM		0x10CC
-#define I350_DEV_ID_ICH10_R_BM_LF		0x10CD
-#define I350_DEV_ID_ICH10_R_BM_V		0x10CE
-#define I350_DEV_ID_ICH10_D_BM_LM		0x10DE
-#define I350_DEV_ID_ICH10_D_BM_LF		0x10DF
-#define I350_DEV_ID_ICH10_D_BM_V		0x1525
-#define I350_DEV_ID_PCH_M_HV_LM		0x10EA
-#define I350_DEV_ID_PCH_M_HV_LC		0x10EB
-#define I350_DEV_ID_PCH_D_HV_DM		0x10EF
-#define I350_DEV_ID_PCH_D_HV_DC		0x10F0
-#define I350_DEV_ID_PCH2_LV_LM			0x1502
-#define I350_DEV_ID_PCH2_LV_V			0x1503
-#define I350_DEV_ID_PCH_LPT_I217_LM		0x153A
-#define I350_DEV_ID_PCH_LPT_I217_V		0x153B
-#define I350_DEV_ID_PCH_LPTLP_I218_LM		0x155A
-#define I350_DEV_ID_PCH_LPTLP_I218_V		0x1559
-#define I350_DEV_ID_PCH_I218_LM2		0x15A0
-#define I350_DEV_ID_PCH_I218_V2		0x15A1
-#define I350_DEV_ID_PCH_I218_LM3		0x15A2 /* Wildcat Point PCH */
-#define I350_DEV_ID_PCH_I218_V3		0x15A3 /* Wildcat Point PCH */
-#define I350_DEV_ID_PCH_SPT_I219_LM		0x156F /* Sunrise Point PCH */
-#define I350_DEV_ID_PCH_SPT_I219_V		0x1570 /* Sunrise Point PCH */
-#define I350_DEV_ID_PCH_SPT_I219_LM2		0x15B7 /* Sunrise Point-H PCH */
-#define I350_DEV_ID_PCH_SPT_I219_V2		0x15B8 /* Sunrise Point-H PCH */
-#define I350_DEV_ID_PCH_LBG_I219_LM3		0x15B9 /* LEWISBURG PCH */
-#define I350_DEV_ID_PCH_SPT_I219_LM4		0x15D7
-#define I350_DEV_ID_PCH_SPT_I219_V4		0x15D8
-#define I350_DEV_ID_PCH_SPT_I219_LM5		0x15E3
-#define I350_DEV_ID_PCH_SPT_I219_V5		0x15D6
-#define I350_DEV_ID_PCH_CNP_I219_LM6		0x15BD
-#define I350_DEV_ID_PCH_CNP_I219_V6		0x15BE
-#define I350_DEV_ID_PCH_CNP_I219_LM7		0x15BB
-#define I350_DEV_ID_PCH_CNP_I219_V7		0x15BC
-#define I350_DEV_ID_PCH_ICP_I219_LM8		0x15DF
-#define I350_DEV_ID_PCH_ICP_I219_V8		0x15E0
-#define I350_DEV_ID_PCH_ICP_I219_LM9		0x15E1
-#define I350_DEV_ID_PCH_ICP_I219_V9		0x15E2
-#define I350_DEV_ID_PCH_ADL_I219_LM16		0x1A1E
-#define I350_DEV_ID_PCH_ADL_I219_V16		0x1A1F
-#define I350_DEV_ID_PCH_ADL_I219_LM17		0x1A1C
-#define I350_DEV_ID_PCH_ADL_I219_V17		0x1A1D
-#define I350_DEV_ID_PCH_RPL_I219_LM23          0x0DC5
-#define I350_DEV_ID_PCH_RPL_I219_V23           0x0DC6
-#define I350_DEV_ID_PCH_RPL_I219_LM22          0x0DC7
-#define I350_DEV_ID_PCH_RPL_I219_V22           0x0DC8
-#define I350_DEV_ID_82576			0x10C9
-#define I350_DEV_ID_82576_FIBER		0x10E6
-#define I350_DEV_ID_82576_SERDES		0x10E7
-#define I350_DEV_ID_82576_QUAD_COPPER		0x10E8
-#define I350_DEV_ID_82576_QUAD_COPPER_ET2	0x1526
-#define I350_DEV_ID_82576_NS			0x150A
-#define I350_DEV_ID_82576_NS_SERDES		0x1518
-#define I350_DEV_ID_82576_SERDES_QUAD		0x150D
-#define I350_DEV_ID_82576_VF			0x10CA
-#define I350_DEV_ID_82576_VF_HV		0x152D
-#define I350_DEV_ID_I350_VF			0x1520
-#define I350_DEV_ID_I350_VF_HV			0x152F
-#define I350_DEV_ID_82575EB_COPPER		0x10A7
-#define I350_DEV_ID_82575EB_FIBER_SERDES	0x10A9
-#define I350_DEV_ID_82575GB_QUAD_COPPER	0x10D6
-#define I350_DEV_ID_82580_COPPER		0x150E
-#define I350_DEV_ID_82580_FIBER		0x150F
-#define I350_DEV_ID_82580_SERDES		0x1510
-#define I350_DEV_ID_82580_SGMII		0x1511
-#define I350_DEV_ID_82580_COPPER_DUAL		0x1516
-#define I350_DEV_ID_82580_QUAD_FIBER		0x1527
 #define I350_DEV_ID_I350_COPPER		0x1521
 #define I350_DEV_ID_I350_FIBER			0x1522
 #define I350_DEV_ID_I350_SERDES		0x1523
 #define I350_DEV_ID_I350_SGMII			0x1524
 #define I350_DEV_ID_I350_DA4			0x1546
-#define I350_DEV_ID_I210_COPPER		0x1533
-#define I350_DEV_ID_I210_COPPER_OEM1		0x1534
-#define I350_DEV_ID_I210_COPPER_IT		0x1535
-#define I350_DEV_ID_I210_FIBER			0x1536
-#define I350_DEV_ID_I210_SERDES		0x1537
-#define I350_DEV_ID_I210_SGMII			0x1538
-#define I350_DEV_ID_I210_COPPER_FLASHLESS	0x157B
-#define I350_DEV_ID_I210_SERDES_FLASHLESS	0x157C
-#define I350_DEV_ID_I210_SGMII_FLASHLESS	0x15F6
-#define I350_DEV_ID_I211_COPPER		0x1539
-#define I350_DEV_ID_I354_BACKPLANE_1GBPS	0x1F40
-#define I350_DEV_ID_I354_SGMII			0x1F41
-#define I350_DEV_ID_I354_BACKPLANE_2_5GBPS	0x1F45
-#define I350_DEV_ID_DH89XXCC_SGMII		0x0438
-#define I350_DEV_ID_DH89XXCC_SERDES		0x043A
-#define I350_DEV_ID_DH89XXCC_BACKPLANE		0x043C
-#define I350_DEV_ID_DH89XXCC_SFP		0x0440
 
 #define I350_REVISION_0	0
 #define I350_REVISION_1	1
@@ -193,42 +34,7 @@ struct i350_hw;
 #define I350_ALT_MAC_ADDRESS_OFFSET_LAN3	9
 
 enum i350_mac_type {
-	i350_undefined = 0,
-	i350_82542,
-	i350_82543,
-	i350_82544,
-	i350_82540,
-	i350_82545,
-	i350_82545_rev_3,
-	i350_82546,
-	i350_82546_rev_3,
-	i350_82541,
-	i350_82541_rev_2,
-	i350_82547,
-	i350_82547_rev_2,
-	i350_82571,
-	i350_82572,
-	i350_82573,
-	i350_82574,
-	i350_82583,
-	i350_80003es2lan,
-	i350_ich8lan,
-	i350_ich9lan,
-	i350_ich10lan,
-	i350_pchlan,
-	i350_pch2lan,
-	i350_pch_lpt,
-	i350_pch_spt,
-	i350_pch_cnp,
-	i350_pch_adp,
-	i350_pch_tgp,
-	i350_82575,
-	i350_82576,
-	i350_82580,
 	i350_i350,
-	i350_i354,
-	i350_i210,
-	i350_i211,
 	i350_vfadapt,
 	i350_vfadapt_i350,
 	i350_num_macs  /* List is 1-based, so subtract 1 for true count. */
@@ -261,28 +67,12 @@ enum i350_nvm_override {
 };
 
 enum i350_phy_type {
-	i350_phy_unknown = 0,
-	i350_phy_none,
-	i350_phy_m88,
-	i350_phy_igp,
-	i350_phy_igp_2,
-	i350_phy_gg82563,
-	i350_phy_igp_3,
-	i350_phy_ife,
-	i350_phy_bm,
-	i350_phy_82578,
-	i350_phy_82577,
-	i350_phy_82579,
-	i350_phy_i217,
 	i350_phy_82580,
 	i350_phy_vf,
-	i350_phy_i210,
 };
 
 enum i350_bus_type {
 	i350_bus_type_unknown = 0,
-	i350_bus_type_pci,
-	i350_bus_type_pcix,
 	i350_bus_type_pci_express,
 	i350_bus_type_reserved
 };
@@ -874,61 +664,6 @@ struct i350_fc_info {
 	enum i350_fc_mode requested_mode;  /* FC mode requested by caller */
 };
 
-struct i350_mbx_operations {
-	s32 (*init_params)(struct i350_hw *hw);
-	s32 (*read)(struct i350_hw *, u32 *, u16,  u16);
-	s32 (*write)(struct i350_hw *, u32 *, u16, u16);
-	s32 (*read_posted)(struct i350_hw *, u32 *, u16,  u16);
-	s32 (*write_posted)(struct i350_hw *, u32 *, u16, u16);
-	s32 (*check_for_msg)(struct i350_hw *, u16);
-	s32 (*check_for_ack)(struct i350_hw *, u16);
-	s32 (*check_for_rst)(struct i350_hw *, u16);
-};
-
-struct i350_mbx_stats {
-	u32 msgs_tx;
-	u32 msgs_rx;
-
-	u32 acks;
-	u32 reqs;
-	u32 rsts;
-};
-
-struct i350_mbx_info {
-	struct i350_mbx_operations ops;
-	struct i350_mbx_stats stats;
-	u32 timeout;
-	u32 usec_delay;
-	u16 size;
-};
-
-struct i350_dev_spec_82541 {
-	enum i350_dsp_config dsp_config;
-	enum i350_ffe_config ffe_config;
-	u16 spd_default;
-	bool phy_init_script;
-};
-
-struct i350_dev_spec_82542 {
-	bool dma_fairness;
-};
-
-struct i350_dev_spec_82543 {
-	u32  tbi_compatibility;
-	bool dma_fairness;
-	bool init_phy_disabled;
-};
-
-struct i350_dev_spec_82571 {
-	bool laa_is_present;
-	u32 smb_counter;
-	I350_MUTEX swflag_mutex;
-};
-
-struct i350_dev_spec_80003es2lan {
-	bool  mdic_wa_enable;
-};
-
 struct i350_shadow_ram {
 	u16  value;
 	bool modified;
@@ -1018,7 +753,6 @@ struct i350_hw {
 #include "i350_80003es2lan.h"
 #include "i350_ich8lan.h"
 #include "i350_82575.h"
-#include "i350_i210.h"
 #include "i350_base.h"
 
 /* These functions must be implemented by drivers */
